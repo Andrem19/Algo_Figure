@@ -20,7 +20,7 @@ async def run():
         profit_list: list = []
         durations_list: list = []
         saldos_list.append([sv.data[0][0],0])
-        sv.i = chunk_len*3
+        sv.i = sv.cand_month+1
         open_index = 0
 
         if sv.settings.prep_data != 'B':

@@ -79,4 +79,8 @@ class Settings:
         self.taker_fee: float = 0.12
         self.maker_fee: float = 0.12
         self.close_strategy: CloseStrategy = close_s
+
+        self.rsi_max_border: int = 85
+        self.rsi_min_border: int = 15
+        self.timeperiod: int = 14
         

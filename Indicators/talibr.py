@@ -4,25 +4,23 @@ import numpy as np
 import talib
 
 def rsi(closes): 
-
-    rsi = talib.RSI(closes)
+    rsi = talib.RSI(closes, timeperiod=sv.settings.timeperiod)
     sv.indicators['rsi'] = round(rsi[-1]/100, 4)
-    if rsi[-1] > 85:
+    if rsi[-1] > sv.settings.rsi_max_border:
         return 2
-    elif rsi[-1] < 15:
+    elif rsi[-1] < sv.settings.rsi_min_border:
         return 1
     else:
         return 3
 
 
 def stochastic(highs, lows, closes):
-
-    slowk, slowd = talib.STOCH(highs, lows, closes, fastk_period=14, slowk_period=3, slowd_period=3)
+    slowk, slowd = talib.STOCH(highs, lows, closes, fastk_period=20, slowk_period=3, slowd_period=3)
     sv.indicators['stochastic_slowk'] = round(slowk[-1]/100, 4)
     sv.indicators['stochastic_slowd'] = round(slowd[-1]/100, 4)
-    if slowk[-1] < 15 and slowd[-1] < 15:
+    if slowk[-1] < 2 and slowd[-1] < 2:
         return 1
-    elif slowk[-1] > 85 and slowd[-1] > 85:
+    elif slowk[-1] > 98 and slowd[-1] > 98:
         return 2
     else:
         return 3
@@ -69,21 +67,27 @@ def natr(high, low, close):
     else:
         return 3
 
-def adx(highs, lows, closes):
-    adx = talib.ADX(highs, lows, closes)
-    plus_di = talib.PLUS_DI(highs, lows, closes)
-    minus_di = talib.MINUS_DI(highs, lows, closes)
-
+def adx(highs, lows, closes, adx_threshold):
+    n = 14
+    adx = talib.ADX(highs, lows, closes, timeperiod=n)
+    plus_di = talib.PLUS_DI(highs, lows, closes, timeperiod=n)
+    minus_di = talib.MINUS_DI(highs, lows, closes, timeperiod=n)
+    atr = talib.ATR(highs, lows, closes, timeperiod=n*3)
     last_idx = len(adx) - 1
+    # print(f'adx: {adx}')
+    # Динамический порог для ADX
+    # adx_threshold = np.mean(adx[-n:])*1.8
+
+    trend_filter = atr[last_idx] > np.mean(atr[-n:])*1.1
 
     sv.indicators['plus_di'] = round(plus_di[last_idx]/100, 4)
     sv.indicators['minus_di'] = round(minus_di[last_idx]/100, 4)
 
-    if plus_di[last_idx] > minus_di[last_idx]:
+    if plus_di[last_idx] > minus_di[last_idx] and adx[last_idx] > adx_threshold and trend_filter:
         return 1
-    elif plus_di[last_idx] < minus_di[last_idx]:
+    elif plus_di[last_idx] < minus_di[last_idx] and adx[last_idx] > adx_threshold and trend_filter:
         return 2
-    elif plus_di[last_idx] < 20 and minus_di[last_idx] < 20:
+    else:
         return 3
     
 def mfi(highs, lows, closes, volumes):
@@ -92,14 +96,36 @@ def mfi(highs, lows, closes, volumes):
     sv.indicators['mfi'] = round(mfi[-1]/100, 4)
 
     signal = 3
-    if mfi[-1] > 70:
+    if mfi[-1] > 98:
         signal = 2
-    elif mfi[-1] < 30:
+    elif mfi[-1] < 2:
         signal = 1
     else:
         signal = 3
 
     return signal
+
+def demarker(highs, lows):
+    n=50
+    DeMax = np.maximum(highs[1:] - highs[:-1], 0)
+    DeMin = np.maximum(lows[:-1] - lows[1:], 0)
+
+    SMA_DeMax = np.sum(DeMax[-n:]) / n
+    SMA_DeMin = np.sum(DeMin[-n:]) / n
+
+    DEM = SMA_DeMax / (SMA_DeMax + SMA_DeMin)
+    sv.indicators['dem'] = round(DEM, 4)
+
+    if DEM > 0.92:
+        signal = 2
+    elif DEM < 0.08:
+        signal = 1
+    else:
+        signal = 3
+
+    return signal
+
+
 
 def obv(closes, volumes):
     

@@ -10,6 +10,7 @@ import helpers.profit as pr
 from catboost import CatBoostClassifier
 import catboost
 import shared_vars as sv
+import numpy as np
 from models.position import Position
 from models.settings import Settings
 import ML.train_regrs as tr_rg
@@ -276,3 +277,8 @@ def reverse():
     elif sv.signal.signal == 1:
         sv.signal.signal = 2
 
+def count_trends(array):
+    diff = np.diff(array)
+    up = np.sum(diff > 0)
+    down = np.sum(diff < 0)
+    return up, down

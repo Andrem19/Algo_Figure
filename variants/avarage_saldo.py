@@ -121,8 +121,8 @@ async def avarag_saldo(coins_list: list):
     if path is not None:
         if len(avarage_duration) > 0:
             info = {
-                'target_len': 'off',
-                'rsi': '85-15',
+                'target_len': 'off' if sv.settings.close_strategy.target_len == 0 else sv.settings.close_strategy.target_len,
+                'rsi': f'{sv.settings.rsi_max_border}-{sv.settings.rsi_min_border}',
                 'only': 'short' if sv.settings.only == 2 else 'long' if sv.settings.only == 1 else 'off',
                 'chunk_len': sv.settings.chunk_len,
                 'stop_loss': sv.settings.close_strategy.init_stop_loss,

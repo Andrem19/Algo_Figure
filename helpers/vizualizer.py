@@ -87,17 +87,17 @@ def draw_candlesticks(candles: list, type_labels: str, mark_index: int):
     df.set_index('timestamp', inplace=True)
     figsize = (10, 6)
     # Plot the candlestick chart using mpf.plot()
-    fig, axlist = mpf.plot(df, type='candle', style=binance_dark, title=f'Type: {type_labels}', returnfig=True, figsize=figsize)
+    fig, axlist = mpf.plot(df, type='candle', style=binance_dark, title=type_labels, returnfig=True, figsize=figsize)
 
     # Add percentage labels to the candlestick chart
     # _add_candlestick_labels(axlist[0], df)
 
-    # if type_labels == 'up':
-    #     axlist[0].annotate('MARK', (mark_index, df.iloc[mark_index]['open']), xytext=(mark_index, df.iloc[mark_index]['open']-10),
-    #                 arrowprops=dict(facecolor='black', arrowstyle='->'))
-    # elif type_labels == 'down':
-    #     axlist[0].annotate('MARK', (mark_index, df.iloc[mark_index]['open']), xytext=(mark_index, df.iloc[mark_index]['open']+10),
-    #                     arrowprops=dict(facecolor='black', arrowstyle='->'))
+    if type_labels == 'up':
+        axlist[0].annotate('MARK', (mark_index, df.iloc[mark_index]['open']), xytext=(mark_index, df.iloc[mark_index]['open']-10),
+                    arrowprops=dict(facecolor='black', arrowstyle='->'))
+    elif type_labels == 'down':
+        axlist[0].annotate('MARK', (mark_index, df.iloc[mark_index]['open']), xytext=(mark_index, df.iloc[mark_index]['open']+10),
+                        arrowprops=dict(facecolor='black', arrowstyle='->'))
 
     # Display the chart
     mpf.show()
