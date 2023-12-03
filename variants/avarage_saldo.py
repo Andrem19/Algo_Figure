@@ -144,5 +144,6 @@ async def avarag_saldo(coins_list: list):
         if len(saldos_list) > 0:
             print(f'all: {plus+minus}, plus: {plus} minus: {minus} saldo: {saldos_list[-1][1]} perc: {percentage}')
             print(str(info))
+            print(sv.signals_names_dict)
             await tel.send_inform_message(f'all: {plus+minus}, plus: {plus} minus: {minus} saldo: {saldos_list[-1][1]} perc: {percentage}', path, True)
             await tel.send_inform_message(str(info), '', False)

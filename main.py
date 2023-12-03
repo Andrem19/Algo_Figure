@@ -31,7 +31,7 @@ async def main(args):
             if sv.settings.prep_data == 'B':
                 # coin_list = coins.test
                 # sv.settings.close_strategy.target_len = 0
-                coin_list = coins.new_collection + coins.coins_to_add
+                coin_list = coins.best_set # coins.new_collection + coins.coins_to_add
 
 
             sv.start_date = datetime(2022, 1, 1) if sv.settings.prep_data != 'B' else datetime(2017, 12, 1)
@@ -54,7 +54,7 @@ async def main(args):
                 coin_list = coins.new_collection + coins.coins_to_add
 
 
-            sv.start_date = datetime(2022, 1, 1) if sv.settings.prep_data != 'B' else datetime(2023, 4, 1)
+            sv.start_date = datetime(2022, 1, 1) if sv.settings.prep_data != 'B' else datetime(2017, 4, 1)
             sv.finish_date = datetime(2023, 1, 1) if sv.settings.prep_data != 'B' else datetime(2023, 11, 1)
 
             for d_t, p_o, s_l, t_p in product(range(len(sv.deep_open_try)), range(len(sv.period_open_try)), range(len(sv.stop_loss)), range(len(sv.take_profit))):

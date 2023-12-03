@@ -44,6 +44,10 @@ async def run():
                     durations_list.append(tm1-1)
                     res = 1 if sv.profit > 0 else 0
                     sv.pos_1m.append(res)
+                    if res ==1:
+                        sv.signals_names_dict[f'{sv.type_os_signal}_plus']+=sv.profit
+                    elif res ==0:
+                        sv.signals_names_dict[f'{sv.type_os_signal}_minus']+=sv.profit
                     # prep.save_example(open_index)
                     sv.i+=tm1
                 else: 

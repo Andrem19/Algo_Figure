@@ -75,6 +75,15 @@ indicators = {
     'rate_of_change': 0,
 }
 
+signals_names_dict = {
+    'rsi_plus':0,
+    'dem_plus':0,
+    'adx_plus':0,
+    'rsi_minus':0,
+    'dem_minus':0,
+    'adx_minus':0,
+}
+type_os_signal = ''
 cand_month = 0
 deep_open_try = [0.006, 0.004, 0.002,]
 period_open_try = [2, 4, 6]
