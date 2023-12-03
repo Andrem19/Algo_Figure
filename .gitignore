@@ -9,6 +9,7 @@ _models
 *.keras
 *.joblib
 *.pb
+catboost_info
 finaly
 newdata
 results

@@ -21,16 +21,16 @@ def get_signal(i, chunk_len):
     # signal = indic_signal
     
     if rsi != 3: #TODO change to != 3
-        signal = pred.get_signal_2(sv.data[i-(chunk_len):i])
+        signal = rsi # pred.get_signal_2(sv.data[i-(chunk_len):i])
 
-        incline = closes[-sv.settings.close_strategy.target_len:]
-        incline_res = prep.calculate_percent_difference(incline[0], incline[-1])
+
+        incline_res = prep.calculate_percent_difference(closes[0], closes[-1])
         if abs(incline_res) < 0.005:
             sv.signal.signal = 3
             return
         else:
             sv.settings.close_strategy.take_profit = abs(incline_res)
-            sv.settings.close_strategy.init_stop_loss = abs(incline_res)/3
+            sv.settings.close_strategy.init_stop_loss = abs(incline_res)/2
             # print(abs(incline_res), abs(incline_res)/2)
     else:
         sv.signal.signal = 3

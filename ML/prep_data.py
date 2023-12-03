@@ -54,12 +54,12 @@ def map_cases(chunk: np.ndarray, target: np.ndarray):
     # new_arr_3 = chose_arr(0, close_candels_row, 3)
     incline = chunk[-sv.settings.close_strategy.target_len:, 4]
     incline_res = calculate_percent_difference(incline[0], incline[-1])
-    if checker(all(np.diff(new_arr_1) > 0), all(np.diff(new_arr_2) > 0), False) and abs(min_fin) < abs(incline_res):
+    if checker(all(np.diff(new_arr_1) > 0), all(np.diff(new_arr_2) > 0), False) and abs(max_fin) > abs(incline_res):
         # if checker(all(np.diff(new_arr_1) > 0), all(np.diff(new_arr_2) > 0), False) and abs(max_fin) > abs(incline_res):
         # viz.draw_candlesticks(np.concatenate((chunk, target)), f'{1}', sv.settings.chunk_len)
         sv.array_perc_diff.append(max_fin)
         return 1
-    elif checker(all(np.diff(new_arr_1) < 0), all(np.diff(new_arr_2) < 0), False)  and abs(min_fin) > abs(incline_res):
+    elif checker(all(np.diff(new_arr_1) < 0), all(np.diff(new_arr_2) < 0), False)  and abs(max_fin) < abs(incline_res):
         # elif checker(all(np.diff(new_arr_1) < 0), all(np.diff(new_arr_2) < 0), False)  and abs(max_fin) < abs(incline_res):
         # viz.draw_candlesticks(np.concatenate((chunk, target)), f'{2}', sv.settings.chunk_len)
         sv.array_perc_diff.append(min_fin)

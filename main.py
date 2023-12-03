@@ -18,7 +18,7 @@ async def main(args):
 
     if sv.settings.main_variant == 1:
         prep_data_vars = [
-            'A',
+            # 'A',
             # 'A2',
             # 'AA',
             'B'
@@ -27,7 +27,7 @@ async def main(args):
             print(f'variant - {vars}')
 
             sv.settings.prep_data = vars
-            serv.train_models()
+            # serv.train_models()
             if sv.settings.prep_data == 'B':
                 # coin_list = coins.test
                 sv.settings.close_strategy.target_len = 0
